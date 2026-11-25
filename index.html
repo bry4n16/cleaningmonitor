@@ -448,6 +448,18 @@ button:active {
     box-shadow: 0 4px 12px rgba(225, 29, 72, 0.22);
 }
 
+.edit-btn {
+    background: var(--sky-500);
+    padding: 7px 12px;
+    font-size: 0.82rem;
+    margin-left: 6px;
+}
+
+.edit-btn:hover {
+    background: #0369a1;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.22);
+}
+
 .table-container {
     overflow-x: auto;
     border-radius: var(--radius-md);
@@ -761,7 +773,32 @@ function displayTasks() {
             }
         });
 
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.textContent = "Edit";
+        editButton.className = "edit-btn";
+        editButton.addEventListener("click", () => {
+            const student = prompt("Edit student name:", tasks[index].student);
+            if (student === null) return;
+
+            const task = prompt("Edit cleaning task:", tasks[index].task);
+            if (task === null) return;
+
+            const updatedStudent = student.trim();
+            const updatedTask = task.trim();
+            if (updatedStudent === "" || updatedTask === "") {
+                alert("Student name and task cannot be empty!");
+                return;
+            }
+
+            tasks[index].student = updatedStudent;
+            tasks[index].task = updatedTask;
+            saveTasks();
+            displayTasks();
+        });
+
         actionCell.appendChild(completeButton);
+        actionCell.appendChild(editButton);
         actionCell.appendChild(deleteButton);
 
         row.appendChild(studentCell);
